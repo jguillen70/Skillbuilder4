@@ -8,7 +8,7 @@
  */
 
 public class SkillBuilder4 {
-    public static String findTYpattern(String s) {
+    public static String findTYPattern(String s) {
         int state = 0;
         int i = 0;
         StringBuilder substring = new StringBuilder();
