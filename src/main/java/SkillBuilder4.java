@@ -8,42 +8,37 @@
  */
 
 public class SkillBuilder4 {
+
+    public static final String STATE_INITIAL = "initial";
+    public static final String STATE_TFOUND = "T-FOUND";
+    public static final String STATE_YFOUND = "Y-FOUND";
+
     public static String findTYPattern(String s) {
-        int state = 0;
-        int i = 0;
-        StringBuilder substring = new StringBuilder();
+        String current_state = STATE_INITIAL;
+        int TFOUND = -1;
+        int YFOUND = -1;
+        String result = "";
 
-        while (i < s.length()) {
-            char c = s.charAt(i);
-            if (state == 0 && (c == 't' || c == 'T')) {
-                state = 1;
-                substring.append(c);
-            } else if (state == 1) {
-                substring.append(c);
-                if (c == 'y' || c == 'Y') {
-                    return "Substring found: " + substring;
-                } else {
-                    state = 2;
-                }
-            } else if (state == 2) {
-                substring.append(c);
-                if (c == 'y' || c == 'Y') {
-                    return "Substring found: " + substring;
-                }
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (current_state.equals(STATE_INITIAL) && (ch == 't' || ch == 'T')){
+                current_state = STATE_TFOUND;
+                TFOUND = i;
+            } else if (current_state.equals(STATE_TFOUND) && (ch == 'y' || ch == 'Y')) {
+                current_state = STATE_YFOUND;
+                YFOUND = i;
+                break;
             }
-            i++;
         }
-        return "Substring not found";
-    }
+        if (current_state.equals(STATE_YFOUND) && (TFOUND < YFOUND)){
+            result = s.substring(TFOUND,YFOUND+1);
+        }
 
-    public static void main(String[] args) {
-        System.out.println(findTYpattern("abcTxyz")); // Substring found: Txy
-        System.out.println(findTYpattern("random texty")); // Substring found: texty
-        System.out.println(findTYpattern("xyz")); // Substring not found
-        System.out.println(findTYpattern("tHelloY")); // Substring found: tHelloY
-        System.out.println(findTYpattern("ty")); // Substring found: ty
+        return result;
+
     }
-}
+    }
 
 
 
